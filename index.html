@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Желоб Водосток - Детальный расчет</title>
+    <style>
+        :root { --accent: #d32f2f; --dark: #1a1a1a; --gray: #f4f4f4; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--gray); margin: 0; padding: 10px; padding-bottom: 140px; }
+        .app { max-width: 500px; margin: auto; background: white; border-radius: 25px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .header { background: var(--dark); color: white; padding: 25px; text-align: center; position: relative; }
+        .header h1 { margin: 0; font-size: 20px; text-transform: uppercase; letter-spacing: 1px; }
+        .admin-trigger { position: absolute; top: 10px; right: 15px; font-size: 10px; opacity: 0.3; border: 1px solid #fff; padding: 3px 7px; border-radius: 5px; cursor: pointer; }
+        
+        .section { padding: 15px 20px; border-bottom: 6px solid var(--gray); }
+        .section-title { font-size: 14px; font-weight: 800; color: var(--accent); margin-bottom: 15px; display: block; text-transform: uppercase; border-left: 4px solid var(--accent); padding-left: 10px; }
+        
+        .item-row { display: grid; grid-template-columns: 1fr 90px; gap: 10px; align-items: center; margin-bottom: 10px; padding-bottom: 5px; border-bottom: 1px solid #f9f9f9; }
+        .item-row label { font-size: 13px; color: #333; line-height: 1.2; }
+        input { padding: 8px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; text-align: center; width: 100%; box-sizing: border-box; }
+        
+        .total-panel { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 500px; background: var(--dark); color: white; padding: 15px; text-align: center; border-radius: 20px 20px 0 0; z-index: 1000; box-shadow: 0 -5px 20px rgba(0,0,0,0.2); }
+        .total-amount { font-size: 30px; color: #f1c40f; font-weight: 900; margin: 5px 0; }
+        .btn-wa { background: #25D366; color: white; border: none; width: 100%; padding: 12px; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 14px; }
+        
+        #admin { display: none; background: #fff9c4; padding: 10px; text-align: center; font-size: 13px; }
+    </style>
+</head>
+<body>
+
+<div class="app">
+    <div class="header">
+        <span class="admin-trigger" onclick="checkAdmin()">ВХОД</span>
+        <h1>ЖЕЛОБ ВОДОСТОК</h1>
+        <div style="font-size:10px; opacity: 0.6;">ПОЛНЫЙ КАТАЛОГ 2026</div>
+    </div>
+
+    <div id="admin">
+        Скидка мастера (%): <input type="number" id="disc" value="0" oninput="calc()" style="width:50px; padding:3px;">
+    </div>
+
+    <div class="section">
+        <span class="section-title">Россия ЛМЗ (0.4 мм)</span>
+        <div class="item-row"><label>Желоб 7024 Антрацит (280с)</label><input type="number" class="qty" data-name="Желоб 7024 ЛМЗ" data-price="280" oninput="calc()"></div>
+        <div class="item-row"><label>Желоб 9003 Белый (250с)</label><input type="number" class="qty" data-name="Желоб 9003 ЛМЗ" data-price="250" oninput="calc()"></div>
+        <div class="item-row"><label>Поворот 7024 (300с)</label><input type="number" class="qty" data-name="Поворот 7024 ЛМЗ" data-price="300" oninput="calc()"></div>
+        <div class="item-row"><label>Поворот 9003 (270с)</label><input type="number" class="qty" data-name="Поворот 9003 ЛМЗ" data-price="270" oninput="calc()"></div>
+    </div>
+
+    <div class="section">
+        <span class="section-title">Китай (0.35-0.4 мм)</span>
+        <div class="item-row"><label>Желоб 7024/9003 (180с)</label><input type="number" class="qty" data-name="Желоб Китай" data-price="180" oninput="calc()"></div>
+        <div class="item-row"><label>Поворот 7024/9003 (200с)</label><input type="number" class="qty" data-name="Поворот Китай" data-price="200" oninput="calc()"></div>
+    </div>
+
+    <div class="section">
+        <span class="section-title">Круглая система</span>
+        <div class="item-row"><label>Труба круглая 90 (280с)</label><input type="number" class="qty" data-name="Труба круглая" data-price="280" oninput="calc()"></div>
+        <div class="item-row"><label>Отвод 90 (200с)</label><input type="number" class="qty" data-name="Отвод кругл." data-price="200" oninput="calc()"></div>
+        <div class="item-row"><label>Сливное копыто (250с)</label><input type="number" class="qty" data-name="Копыто сливное" data-price="250" oninput="calc()"></div>
+        <div class="item-row"><label>Хомут бабочка (50с)</label><input type="number" class="qty" data-name="Хомут бабочка" data-price="50" oninput="calc()"></div>
+    </div>
+
+    <div class="section">
+        <span class="section-title">Комплектующие</span>
+        <div class="item-row"><label>Труба квадратная (200с)</label><input type="number" class="qty" data-name="Труба квадратная" data-price="200" oninput="calc()"></div>
+        <div class="item-row"><label>Колено квадратное (150с)</label><input type="number" class="qty" data-name="Колено квадрат." data-price="150" oninput="calc()"></div>
+        <div class="item-row"><label>Воронка / Чашка (150с)</label><input type="number" class="qty" data-name="Воронка" data-price="150" oninput="calc()"></div>
+        <div class="item-row"><label>Заглушка (70с)</label><input type="number" class="qty" data-name="Заглушка" data-price="70" oninput="calc()"></div>
+        <div class="item-row"><label>Кронштейн наружный (100с)</label><input type="number" class="qty" data-name="Кронштейн наруж." data-price="100" oninput="calc()"></div>
+        <div class="item-row"><label>Кронштейн внутр. (35с)</label><input type="number" class="qty" data-name="Кронштейн внутр." data-price="35" oninput="calc()"></div>
+        <div class="item-row"><label>Хомут гвоздь (80с)</label><input type="number" class="qty" data-name="Хомут гвоздь" data-price="80" oninput="calc()"></div>
+        <div class="item-row"><label>Хомут отталк. 10см (150с)</label><input type="number" class="qty" data-name="Хомут отт. 10см" data-price="150" oninput="calc()"></div>
+        <div class="item-row"><label>Хомут отталк. 20см (200с)</label><input type="number" class="qty" data-name="Хомут отт. 20см" data-price="200" oninput="calc()"></div>
+        <div class="item-row"><label>Герметик TOSKA 606 (230с)</label><input type="number" class="qty" data-name="Герметик 606" data-price="230" oninput="calc()"></div>
+        <div class="item-row"><label>Саморезы (250с/пач)</label><input type="number" class="qty" data-name="Саморезы пачка" data-price="250" oninput="calc()"></div>
+    </div>
+
+    <div class="total-panel">
+        <div class="total-amount"><span id="res">0</span> сом</div>
+        <button class="btn-wa" onclick="send()">ОТПРАВИТЬ ПОЛНЫЙ РАСЧЕТ</button>
+    </div>
+</div>
+
+<script>
+    function checkAdmin() {
+        if(prompt("Пароль:") === "7024") document.getElementById('admin').style.display='block';
+    }
+
+    function calc() {
+        let total = 0;
+        document.querySelectorAll('.qty').forEach(i => {
+            total += (parseFloat(i.getAttribute('data-price')) * (parseFloat(i.value) || 0));
+        });
+        let d = parseFloat(document.getElementById('disc').value) || 0;
+        if(d > 0) total -= (total * d / 100);
+        document.getElementById('res').innerText = Math.round(total).toLocaleString();
+    }
+
+    function send() {
+        let text = "Здравствуйте! Расчет заказа «Желоб Водосток»:\n\n";
+        let hasItems = false;
+        
+        document.querySelectorAll('.qty').forEach(i => {
+            let count = parseFloat(i.value) || 0;
+            if(count > 0) {
+                let name = i.getAttribute('data-name');
+                let price = i.getAttribute('data-price');
+                let subtotal = count * price;
+                text += `✅ ${name}: ${count} шт/м × ${price}с = ${subtotal} сом\n`;
+                hasItems = true;
+            }
+        });
+
+        let d = parseFloat(document.getElementById('disc').value) || 0;
+        if(d > 0) text += `\n🎁 Скидка: ${d}%\n`;
+
+        let total = document.getElementById('res').innerText;
+        text += `\nИТОГО К ОПЛАТЕ: ${total} сом`;
+
+        if(!hasItems) {
+            alert("Сначала введите количество товаров!");
+            return;
+        }
+
+        window.open(`https://wa.me/996709949854?text=${encodeURIComponent(text)}`);
+    }
+</script>
+</body>
+</html>
